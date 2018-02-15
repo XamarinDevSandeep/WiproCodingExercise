@@ -19,6 +19,8 @@ namespace CodingExercise.ViewModel
 
         }
 
+        private bool isAscending = false;
+
         private string title = string.Empty;
         public string Title
         {
@@ -36,20 +38,62 @@ namespace CodingExercise.ViewModel
             }
         }
 
-        public ObservableCollection<Row> FactsCollection { get; set; }
-
-        public ICommand LoadCommand
+        ObservableCollection<Row> factsCollection;
+        public ObservableCollection<Row> FactsCollection
         {
             get
             {
-                return new Command(async () => await GetFacts());
+                return factsCollection;
             }
+            set
+            {
+                factsCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get
+            {
+                return isBusy;
+            }
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public EventHandler ItemsLoaded;
+        private Command loadCommand;
+        /// <summary>
+        /// Command to load/refresh items
+        /// </summary>
+        public Command LoadCommand
+        {
+            get { return loadCommand ?? (loadCommand = new Command(async () => await GetFacts())); }
+        }
+
+        private Command sortCommand;
+        /// <summary>
+        /// Command to load sorted items items
+        /// </summary>
+        public Command SortCommand
+        {
+            get { return sortCommand ?? (sortCommand = new Command(() => SortCollection())); }
         }
 
         public async Task GetFacts()
         {
             try
             {
+                if (IsBusy)
+                    return;
+
+                IsBusy = true;
+
                 string response = await ServiceHelper.GetFactsFromAPI();
 
                 if (!string.IsNullOrEmpty(response))
@@ -67,7 +111,30 @@ namespace CodingExercise.ViewModel
             {
                 await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
             }
+            finally
+            {
+                IsBusy = false;
+            }
+            this.ItemsLoaded(this, new EventArgs());
+        }
+
+        void SortCollection()
+        {
+            if (FactsCollection?.Count > 0)
+            {
+                if (isAscending)
+                {
+                    FactsCollection = new ObservableCollection<Row>(FactsCollection.OrderBy(i => i.title));
+                    isAscending = false;
+                }
+                else
+                {
+                    FactsCollection = new ObservableCollection<Row>(FactsCollection.OrderByDescending(i => i.title));
+                    isAscending = true;
+                }
+            }
         }
 
     }
+
 }
