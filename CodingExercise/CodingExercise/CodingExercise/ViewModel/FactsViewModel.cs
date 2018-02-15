@@ -1,5 +1,6 @@
 ﻿using CodingExercise.Model;
 using CodingExercise.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -36,7 +37,7 @@ namespace CodingExercise.ViewModel
         }
 
         public ObservableCollection<Row> FactsCollection { get; set; }
-        
+
         public ICommand LoadCommand
         {
             get
@@ -53,14 +54,19 @@ namespace CodingExercise.ViewModel
 
                 if (!string.IsNullOrEmpty(response))
                 {
-                    System.Diagnostics.Debug.WriteLine(response);
+                    FactsModel model = JsonConvert.DeserializeObject<FactsModel>(response);
+                    if (model != null)
+                    {
+                        Title = model.title;
+                        FactsCollection = (model.rows?.Count > 0) ? new ObservableCollection<Row>(model.rows) : new ObservableCollection<Row>();
+                    }                    
                 }
 
             }
             catch (System.Exception ex)
             {
                 await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-            }            
+            }
         }
 
     }
