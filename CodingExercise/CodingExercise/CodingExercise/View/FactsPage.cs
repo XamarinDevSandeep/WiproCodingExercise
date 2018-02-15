@@ -20,12 +20,13 @@ namespace CodingExercise.View
             get { return BindingContext as FactsViewModel; }
         }
 
-        public FactsPage()
+        public FactsPage(bool callRestApi)
         {
             this.SetBinding(TitleProperty, "Title");
             BackgroundColor = Color.WhiteSmoke;
-            BindingContext = new FactsViewModel();
+            BindingContext = new FactsViewModel(callRestApi);
 
+            #region Styles
             var buttonStyle = new Style(typeof(Button))
             {
                 Setters =
@@ -36,7 +37,8 @@ namespace CodingExercise.View
                     new Setter { Property = Button.FontSizeProperty, Value = Device.GetNamedSize(NamedSize.Medium, typeof(Button)) },
                     new Setter { Property = Button.BorderRadiusProperty, Value = 0 }
                 }
-            };
+            }; 
+            #endregion
 
 
             #region ListFacts
@@ -194,7 +196,7 @@ namespace CodingExercise.View
         {
             Grid myGrid = new Grid
             {
-                Padding = 16,
+                Padding = new Thickness(15, 2, 15, 2),
                 ColumnSpacing = 2,
                 BackgroundColor = Color.White,
                 RowDefinitions =

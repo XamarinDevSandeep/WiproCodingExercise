@@ -14,12 +14,13 @@ namespace CodingExercise.ViewModel
 {
     public class FactsViewModel : BindableObject
     {
-        public FactsViewModel()
-        {
-
-        }
-
         private bool isAscending = false;
+        private bool callRestApi = false;
+
+        public FactsViewModel(bool _callRestApi)
+        {
+            callRestApi = _callRestApi;
+        }        
 
         private string title = string.Empty;
         public string Title
@@ -94,7 +95,7 @@ namespace CodingExercise.ViewModel
 
                 IsBusy = true;
 
-                string response = await ServiceHelper.GetFactsFromAPI();
+                string response = (callRestApi) ? await ServiceHelper.GetFactsFromAPI() : ServiceHelper.GetFactsFromFileSystem();
 
                 if (!string.IsNullOrEmpty(response))
                 {

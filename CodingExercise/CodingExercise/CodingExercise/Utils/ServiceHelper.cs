@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,5 +32,18 @@ namespace CodingExercise.Utils
             return result;
         }
 
+
+        public static string GetFactsFromFileSystem()
+        {
+            var assembly = typeof(ServiceHelper).GetTypeInfo().Assembly;
+            Stream stream = assembly.GetManifestResourceStream("CodingExercise.Utils.facts.json");
+
+            string result = string.Empty;
+            using (var reader = new System.IO.StreamReader(stream))
+            {
+                result = reader.ReadToEnd();
+            }
+            return result;
+        }
     }
 }
