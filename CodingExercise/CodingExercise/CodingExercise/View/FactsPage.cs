@@ -42,9 +42,9 @@ namespace CodingExercise.View
 
 
             #region ListFacts
-            myListView = new ListView
+            myListView = new ListView(ListViewCachingStrategy.RetainElement)
             {
-                HasUnevenRows = true,
+                HasUnevenRows = true,                
                 ItemTemplate = new DataTemplate(typeof(FactsItemTemplate))
             };
             myListView.SetBinding(ListView.ItemsSourceProperty, "FactsCollection");
@@ -235,17 +235,22 @@ namespace CodingExercise.View
             {
                 WidthRequest = 100,
                 HeightRequest = 100,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.End,
                 Aspect = Aspect.AspectFit,
                 Source = "placeholder.png"
             };
             myGrid.Children.Add(imgPlaceholder, 1, 2, 1, 2);
-
+                        
             img = new Image
             {
                 WidthRequest = 100,
                 HeightRequest = 100,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.End,
                 Aspect = Aspect.AspectFill
             };
+            
             myGrid.Children.Add(img, 1, 2, 1, 2);
 
             View = myGrid;
