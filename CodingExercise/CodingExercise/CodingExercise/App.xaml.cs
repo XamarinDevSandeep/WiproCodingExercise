@@ -14,7 +14,7 @@ namespace CodingExercise
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new FactsPage());
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()
