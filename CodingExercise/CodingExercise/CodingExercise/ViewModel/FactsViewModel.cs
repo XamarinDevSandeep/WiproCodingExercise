@@ -1,4 +1,4 @@
-﻿using CodingExercise.Model;
+using CodingExercise.Model;
 using CodingExercise.Utils;
 using Newtonsoft.Json;
 using System;
@@ -103,7 +103,9 @@ namespace CodingExercise.ViewModel
                     if (model != null)
                     {
                         Title = model.title;
-                        FactsCollection = (model.rows?.Count > 0) ? new ObservableCollection<Row>(model.rows) : new ObservableCollection<Row>();
+                        //not showing rows with empty title as one of containing empty title and description
+                        var lstRows = new ObservableCollection<Row>(model.rows).Where(x => x.title != null).ToList();
+                        FactsCollection = (model.rows?.Count > 0) ?  new ObservableCollection<Row>(lstRows) : new ObservableCollection<Row>();                       
                     }                    
                 }
 

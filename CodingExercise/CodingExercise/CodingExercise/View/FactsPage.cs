@@ -216,6 +216,7 @@ namespace CodingExercise.View
                 Margin = new Thickness(5, 5, 5, 0),
                 FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
                 TextColor = Color.Blue,
+                FontAttributes = FontAttributes.Bold,
                 LineBreakMode = LineBreakMode.WordWrap
             };
             lblCaption.SetBinding(Label.TextProperty, "title");
@@ -225,7 +226,7 @@ namespace CodingExercise.View
             {
                 Margin = new Thickness(5, 5, 5, 0),
                 FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
-                TextColor = Color.Blue,
+                TextColor = Color.Black,
                 LineBreakMode = LineBreakMode.WordWrap
             };
             lblDescription.SetBinding(Label.TextProperty, "description");
@@ -234,10 +235,10 @@ namespace CodingExercise.View
             var imgPlaceholder = new Image
             {
                 WidthRequest = 100,
-                HeightRequest = 100,
-                HorizontalOptions = LayoutOptions.Center,
+                HeightRequest = 60,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.End,
-                Aspect = Aspect.AspectFit,
+                Aspect = Aspect.Fill,
                 Source = "placeholder.png"
             };
             myGrid.Children.Add(imgPlaceholder, 1, 2, 1, 2);
@@ -245,10 +246,10 @@ namespace CodingExercise.View
             img = new Image
             {
                 WidthRequest = 100,
-                HeightRequest = 100,
-                HorizontalOptions = LayoutOptions.Center,
+                HeightRequest = 60,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.End,
-                Aspect = Aspect.AspectFill
+                Aspect = Aspect.Fill
             };
             
             myGrid.Children.Add(img, 1, 2, 1, 2);
